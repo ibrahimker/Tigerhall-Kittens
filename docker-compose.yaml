@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:5.0.12
+    ports:
+      - 6379:6379
+    networks:
+      - tigerhall-kittens
+
+  postgres:
+    image: postgres:13.2-alpine
+    environment:
+      - POSTGRES_USER=postgresuser
+      - POSTGRES_PASSWORD=postgrespassword
+      - POSTGRES_DB=tigerhall
+    ports:
+      - 5432:5432
+    networks:
+      - tigerhall-kittens
+
+  server:
+    image: tigerhall-kittens-server:latest
+    environment:
+      - ENV=development
+      - SERVICE_NAME=tigerhall-kittens-server
+      - PORT_GRPC=8080
+      - PORT_REST=8081
+      - HASHID_SALT=salt-is-garam
+      - HASHID_MIN_LENGTH=10
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgresuser
+      - POSTGRES_PASSWORD=postgrespassword
+      - POSTGRES_NAME=tigerhall
+      - POSTGRES_MAX_OPEN_CONNS=50
+      - POSTGRES_MAX_CONN_LIFETIME=10m
+      - POSTGRES_MAX_IDLE_LIFETIME=5m
+      - REDIS_ADDRESS=redis:6379
+    ports:
+      - 8080:8080
+      - 8081:8081
+    networks:
+      - tigerhall-kittens
+    depends_on:
+      - redis
+      - postgres
+
+networks:
+  tigerhall-kittens:
