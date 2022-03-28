@@ -8,6 +8,10 @@ format:
 check.import:
 	bin/check-import.sh
 
+.PHONY: generate-proto
+generate-proto:
+	bin/generate-proto.sh
+
 .PHONY: cleanlintcache
 cleanlintcache:
 	golangci-lint cache clean
@@ -30,10 +34,6 @@ test.unit: cleantestcache
 .PHONY: mockgen
 mockgen:
 	bin/generate-mock.sh $(name)
-
-.PHONY: dep-download
-dep-download:
-	GO111MODULE=on go mod download
 
 .PHONY: tidy
 tidy:
@@ -61,10 +61,6 @@ compile-server:
 .PHONY: docker-build-server
 docker-build-server:
 	docker build --no-cache -t tigerhall-kittens-server:latest -f dockerfiles/server/Dockerfile .
-
-.PHONY: test.integration
-test.integration:
-	bin/godog.sh
 
 .PHONY: all-db-migrate
 all-db-migrate:

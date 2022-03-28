@@ -25,10 +25,7 @@ import (
 )
 
 const (
-	connProtocol  = "tcp"
-	envProduction = "production"
-
-	tracingSampleProbability = 0.01
+	connProtocol = "tcp"
 )
 
 // Grpc is responsible to act as gRPC server.
@@ -55,8 +52,7 @@ func NewGrpc(port string, options ...grpc.ServerOption) *Grpc {
 // 	- Logging, using logrus/zap.
 // 	- Recoverer, using grpc_recovery.
 func NewDevelopmentGrpc(port string, logger *logrus.Entry) *Grpc {
-	var options grpc.ServerOption
-	options = grpc_middleware.WithUnaryServerChain(defaultUnaryServerInterceptors(logger)...)
+	options := grpc_middleware.WithUnaryServerChain(defaultUnaryServerInterceptors(logger)...)
 
 	srv := NewGrpc(port, options)
 	grpc_prometheus.Register(srv.Server)

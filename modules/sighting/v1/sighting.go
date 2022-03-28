@@ -13,18 +13,19 @@ import (
 	tigerv1 "github.com/ibrahimker/tigerhall-kittens/api/proto"
 	"github.com/ibrahimker/tigerhall-kittens/common/config"
 	"github.com/ibrahimker/tigerhall-kittens/common/logging"
+	"github.com/ibrahimker/tigerhall-kittens/modules/sighting/v1/internal/builder"
 )
 
 // InitGrpc initializes gRPC user management modules.
 func InitGrpc(server *grpc.Server, cfg *config.Config, pool *pgxpool.Pool, rds *goredis.Client, logger *logrus.Entry) {
-	//scorecardBuilder := builder.BuildScorecardHandler(cfg, pool, rds, logger, guruTokenAuthClient)
-	tigerv1.RegisterTigerhallKittensServiceServer(server, nil)
+	sightingBuilder := builder.BuildTigerSightingHandler(cfg, pool, rds, logger)
+	tigerv1.RegisterTigerSightingServiceServer(server, sightingBuilder)
 }
 
 // InitRest initializes REST user management modules.
 // If any error occurs, it logs the error and continue the process.
 func InitRest(ctx context.Context, server *runtime.ServeMux, grpcPort string, logger *logrus.Entry, options ...grpc.DialOption) {
-	if err := tigerv1.RegisterTigerhallKittensServiceHandlerFromEndpoint(ctx, server, grpcPort, options); err != nil {
-		logging.WithError(err, logger).Error("RegisterTigerhallKittensServiceHandlerFromEndpoint failed to be registered")
+	if err := tigerv1.RegisterTigerSightingServiceHandlerFromEndpoint(ctx, server, grpcPort, options); err != nil {
+		logging.WithError(err, logger).Error("RegisterTigerSightingServiceHandlerFromEndpoint failed to be registered")
 	}
 }

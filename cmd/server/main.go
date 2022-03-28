@@ -10,6 +10,7 @@ import (
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/ibrahimker/tigerhall-kittens/common/config"
 	"github.com/ibrahimker/tigerhall-kittens/common/healthcheck"
@@ -41,7 +42,7 @@ func main() {
 	registerGrpcHandlers(grpcServer.Server, cfg, pgpool, rds, logger)
 
 	restServer := createRestServer(cfg.Port.REST, cfg)
-	registerRestHandlers(context.Background(), cfg, restServer.ServeMux, fmt.Sprintf(":%s", cfg.Port.GRPC), logger, grpc.WithInsecure())
+	registerRestHandlers(context.Background(), restServer.ServeMux, fmt.Sprintf(":%s", cfg.Port.GRPC), logger, grpc.WithTransportCredentials(insecure.NewCredentials()))
 
 	healthcheck.RegisterHealthHandler(grpcServer.Server)
 
@@ -90,7 +91,7 @@ func registerGrpcHandlers(server *grpc.Server, cfg *config.Config, pgpool *pgxpo
 	// end of register all module's gRPC handlers
 }
 
-func registerRestHandlers(ctx context.Context, cfg *config.Config, server *runtime.ServeMux, grpcPort string, logger *logrus.Entry, options ...grpc.DialOption) {
+func registerRestHandlers(ctx context.Context, server *runtime.ServeMux, grpcPort string, logger *logrus.Entry, options ...grpc.DialOption) {
 	// start register all module's REST handlers
 	options = append(options, grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(maxCallRecvMsgSize)))
 	// examplev2.InitRest(ctx, server, grpcPort, options...)

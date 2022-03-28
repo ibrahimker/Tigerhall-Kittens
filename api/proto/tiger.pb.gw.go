@@ -31,7 +31,7 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-func request_TigerhallKittensService_GetTigers_0(ctx context.Context, marshaler runtime.Marshaler, client TigerhallKittensServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_TigerSightingService_GetTigers_0(ctx context.Context, marshaler runtime.Marshaler, client TigerSightingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetTigersRequest
 	var metadata runtime.ServerMetadata
 
@@ -40,7 +40,7 @@ func request_TigerhallKittensService_GetTigers_0(ctx context.Context, marshaler 
 
 }
 
-func local_request_TigerhallKittensService_GetTigers_0(ctx context.Context, marshaler runtime.Marshaler, server TigerhallKittensServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_TigerSightingService_GetTigers_0(ctx context.Context, marshaler runtime.Marshaler, server TigerSightingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetTigersRequest
 	var metadata runtime.ServerMetadata
 
@@ -49,7 +49,7 @@ func local_request_TigerhallKittensService_GetTigers_0(ctx context.Context, mars
 
 }
 
-func request_TigerhallKittensService_CreateTiger_0(ctx context.Context, marshaler runtime.Marshaler, client TigerhallKittensServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_TigerSightingService_CreateTiger_0(ctx context.Context, marshaler runtime.Marshaler, client TigerSightingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq CreateTigerRequest
 	var metadata runtime.ServerMetadata
 
@@ -66,7 +66,7 @@ func request_TigerhallKittensService_CreateTiger_0(ctx context.Context, marshale
 
 }
 
-func local_request_TigerhallKittensService_CreateTiger_0(ctx context.Context, marshaler runtime.Marshaler, server TigerhallKittensServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_TigerSightingService_CreateTiger_0(ctx context.Context, marshaler runtime.Marshaler, server TigerSightingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq CreateTigerRequest
 	var metadata runtime.ServerMetadata
 
@@ -83,25 +83,59 @@ func local_request_TigerhallKittensService_CreateTiger_0(ctx context.Context, ma
 
 }
 
-func request_TigerhallKittensService_GetSightings_0(ctx context.Context, marshaler runtime.Marshaler, client TigerhallKittensServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_TigerSightingService_GetSightings_0(ctx context.Context, marshaler runtime.Marshaler, client TigerSightingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetSightingsRequest
 	var metadata runtime.ServerMetadata
+
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+
+	protoReq.Id, err = runtime.Int32(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
 
 	msg, err := client.GetSightings(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_TigerhallKittensService_GetSightings_0(ctx context.Context, marshaler runtime.Marshaler, server TigerhallKittensServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_TigerSightingService_GetSightings_0(ctx context.Context, marshaler runtime.Marshaler, server TigerSightingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetSightingsRequest
 	var metadata runtime.ServerMetadata
+
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+
+	protoReq.Id, err = runtime.Int32(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
 
 	msg, err := server.GetSightings(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
-func request_TigerhallKittensService_CreateSighting_0(ctx context.Context, marshaler runtime.Marshaler, client TigerhallKittensServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_TigerSightingService_CreateSighting_0(ctx context.Context, marshaler runtime.Marshaler, client TigerSightingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq CreateSightingRequest
 	var metadata runtime.ServerMetadata
 
@@ -111,6 +145,23 @@ func request_TigerhallKittensService_CreateSighting_0(ctx context.Context, marsh
 	}
 	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+
+	protoReq.Id, err = runtime.Int32(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
 
 	msg, err := client.CreateSighting(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -118,7 +169,7 @@ func request_TigerhallKittensService_CreateSighting_0(ctx context.Context, marsh
 
 }
 
-func local_request_TigerhallKittensService_CreateSighting_0(ctx context.Context, marshaler runtime.Marshaler, server TigerhallKittensServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_TigerSightingService_CreateSighting_0(ctx context.Context, marshaler runtime.Marshaler, server TigerSightingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq CreateSightingRequest
 	var metadata runtime.ServerMetadata
 
@@ -130,30 +181,47 @@ func local_request_TigerhallKittensService_CreateSighting_0(ctx context.Context,
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+
+	protoReq.Id, err = runtime.Int32(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+
 	msg, err := server.CreateSighting(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
-// RegisterTigerhallKittensServiceHandlerServer registers the http handlers for service TigerhallKittensService to "mux".
-// UnaryRPC     :call TigerhallKittensServiceServer directly.
+// RegisterTigerSightingServiceHandlerServer registers the http handlers for service TigerSightingService to "mux".
+// UnaryRPC     :call TigerSightingServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterTigerhallKittensServiceHandlerFromEndpoint instead.
-func RegisterTigerhallKittensServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server TigerhallKittensServiceServer) error {
+// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterTigerSightingServiceHandlerFromEndpoint instead.
+func RegisterTigerSightingServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server TigerSightingServiceServer) error {
 
-	mux.Handle("GET", pattern_TigerhallKittensService_GetTigers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_TigerSightingService_GetTigers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/tiger.v1.TigerhallKittensService/GetTigers", runtime.WithHTTPPathPattern("/v1/tiger"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/tiger.v1.TigerSightingService/GetTigers", runtime.WithHTTPPathPattern("/v1/tiger"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_TigerhallKittensService_GetTigers_0(ctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_TigerSightingService_GetTigers_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -161,23 +229,23 @@ func RegisterTigerhallKittensServiceHandlerServer(ctx context.Context, mux *runt
 			return
 		}
 
-		forward_TigerhallKittensService_GetTigers_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TigerSightingService_GetTigers_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_TigerhallKittensService_CreateTiger_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_TigerSightingService_CreateTiger_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/tiger.v1.TigerhallKittensService/CreateTiger", runtime.WithHTTPPathPattern("/v1/tiger"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/tiger.v1.TigerSightingService/CreateTiger", runtime.WithHTTPPathPattern("/v1/tiger"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_TigerhallKittensService_CreateTiger_0(ctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_TigerSightingService_CreateTiger_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -185,23 +253,23 @@ func RegisterTigerhallKittensServiceHandlerServer(ctx context.Context, mux *runt
 			return
 		}
 
-		forward_TigerhallKittensService_CreateTiger_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TigerSightingService_CreateTiger_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_TigerhallKittensService_GetSightings_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_TigerSightingService_GetSightings_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/tiger.v1.TigerhallKittensService/GetSightings", runtime.WithHTTPPathPattern("/v1/sighting"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/tiger.v1.TigerSightingService/GetSightings", runtime.WithHTTPPathPattern("/v1/tiger/{id}/sighting"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_TigerhallKittensService_GetSightings_0(ctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_TigerSightingService_GetSightings_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -209,23 +277,23 @@ func RegisterTigerhallKittensServiceHandlerServer(ctx context.Context, mux *runt
 			return
 		}
 
-		forward_TigerhallKittensService_GetSightings_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TigerSightingService_GetSightings_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_TigerhallKittensService_CreateSighting_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_TigerSightingService_CreateSighting_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/tiger.v1.TigerhallKittensService/CreateSighting", runtime.WithHTTPPathPattern("/v1/sighting"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/tiger.v1.TigerSightingService/CreateSighting", runtime.WithHTTPPathPattern("/v1/tiger/{id}/sighting"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_TigerhallKittensService_CreateSighting_0(ctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_TigerSightingService_CreateSighting_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -233,16 +301,16 @@ func RegisterTigerhallKittensServiceHandlerServer(ctx context.Context, mux *runt
 			return
 		}
 
-		forward_TigerhallKittensService_CreateSighting_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TigerSightingService_CreateSighting_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
 	return nil
 }
 
-// RegisterTigerhallKittensServiceHandlerFromEndpoint is same as RegisterTigerhallKittensServiceHandler but
+// RegisterTigerSightingServiceHandlerFromEndpoint is same as RegisterTigerSightingServiceHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterTigerhallKittensServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterTigerSightingServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.Dial(endpoint, opts...)
 	if err != nil {
 		return err
@@ -262,103 +330,103 @@ func RegisterTigerhallKittensServiceHandlerFromEndpoint(ctx context.Context, mux
 		}()
 	}()
 
-	return RegisterTigerhallKittensServiceHandler(ctx, mux, conn)
+	return RegisterTigerSightingServiceHandler(ctx, mux, conn)
 }
 
-// RegisterTigerhallKittensServiceHandler registers the http handlers for service TigerhallKittensService to "mux".
+// RegisterTigerSightingServiceHandler registers the http handlers for service TigerSightingService to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterTigerhallKittensServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterTigerhallKittensServiceHandlerClient(ctx, mux, NewTigerhallKittensServiceClient(conn))
+func RegisterTigerSightingServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterTigerSightingServiceHandlerClient(ctx, mux, NewTigerSightingServiceClient(conn))
 }
 
-// RegisterTigerhallKittensServiceHandlerClient registers the http handlers for service TigerhallKittensService
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "TigerhallKittensServiceClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "TigerhallKittensServiceClient"
+// RegisterTigerSightingServiceHandlerClient registers the http handlers for service TigerSightingService
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "TigerSightingServiceClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "TigerSightingServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "TigerhallKittensServiceClient" to call the correct interceptors.
-func RegisterTigerhallKittensServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client TigerhallKittensServiceClient) error {
+// "TigerSightingServiceClient" to call the correct interceptors.
+func RegisterTigerSightingServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client TigerSightingServiceClient) error {
 
-	mux.Handle("GET", pattern_TigerhallKittensService_GetTigers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_TigerSightingService_GetTigers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/tiger.v1.TigerhallKittensService/GetTigers", runtime.WithHTTPPathPattern("/v1/tiger"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/tiger.v1.TigerSightingService/GetTigers", runtime.WithHTTPPathPattern("/v1/tiger"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_TigerhallKittensService_GetTigers_0(ctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_TigerSightingService_GetTigers_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_TigerhallKittensService_GetTigers_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TigerSightingService_GetTigers_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_TigerhallKittensService_CreateTiger_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_TigerSightingService_CreateTiger_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/tiger.v1.TigerhallKittensService/CreateTiger", runtime.WithHTTPPathPattern("/v1/tiger"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/tiger.v1.TigerSightingService/CreateTiger", runtime.WithHTTPPathPattern("/v1/tiger"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_TigerhallKittensService_CreateTiger_0(ctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_TigerSightingService_CreateTiger_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_TigerhallKittensService_CreateTiger_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TigerSightingService_CreateTiger_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_TigerhallKittensService_GetSightings_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_TigerSightingService_GetSightings_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/tiger.v1.TigerhallKittensService/GetSightings", runtime.WithHTTPPathPattern("/v1/sighting"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/tiger.v1.TigerSightingService/GetSightings", runtime.WithHTTPPathPattern("/v1/tiger/{id}/sighting"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_TigerhallKittensService_GetSightings_0(ctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_TigerSightingService_GetSightings_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_TigerhallKittensService_GetSightings_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TigerSightingService_GetSightings_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_TigerhallKittensService_CreateSighting_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_TigerSightingService_CreateSighting_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/tiger.v1.TigerhallKittensService/CreateSighting", runtime.WithHTTPPathPattern("/v1/sighting"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/tiger.v1.TigerSightingService/CreateSighting", runtime.WithHTTPPathPattern("/v1/tiger/{id}/sighting"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_TigerhallKittensService_CreateSighting_0(ctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_TigerSightingService_CreateSighting_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_TigerhallKittensService_CreateSighting_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TigerSightingService_CreateSighting_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -366,21 +434,21 @@ func RegisterTigerhallKittensServiceHandlerClient(ctx context.Context, mux *runt
 }
 
 var (
-	pattern_TigerhallKittensService_GetTigers_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "tiger"}, ""))
+	pattern_TigerSightingService_GetTigers_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "tiger"}, ""))
 
-	pattern_TigerhallKittensService_CreateTiger_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "tiger"}, ""))
+	pattern_TigerSightingService_CreateTiger_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "tiger"}, ""))
 
-	pattern_TigerhallKittensService_GetSightings_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "sighting"}, ""))
+	pattern_TigerSightingService_GetSightings_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "tiger", "id", "sighting"}, ""))
 
-	pattern_TigerhallKittensService_CreateSighting_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "sighting"}, ""))
+	pattern_TigerSightingService_CreateSighting_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "tiger", "id", "sighting"}, ""))
 )
 
 var (
-	forward_TigerhallKittensService_GetTigers_0 = runtime.ForwardResponseMessage
+	forward_TigerSightingService_GetTigers_0 = runtime.ForwardResponseMessage
 
-	forward_TigerhallKittensService_CreateTiger_0 = runtime.ForwardResponseMessage
+	forward_TigerSightingService_CreateTiger_0 = runtime.ForwardResponseMessage
 
-	forward_TigerhallKittensService_GetSightings_0 = runtime.ForwardResponseMessage
+	forward_TigerSightingService_GetSightings_0 = runtime.ForwardResponseMessage
 
-	forward_TigerhallKittensService_CreateSighting_0 = runtime.ForwardResponseMessage
+	forward_TigerSightingService_CreateSighting_0 = runtime.ForwardResponseMessage
 )

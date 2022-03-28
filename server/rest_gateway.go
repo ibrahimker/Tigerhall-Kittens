@@ -11,7 +11,6 @@ import (
 )
 
 var loadtestHeader = "X-Loadtest-Email"
-var maxGRPCErrCodeNumber = 16
 
 // Rest is responsible to act as HTTP/1.1 REST server.
 // It composes grpc-gateway runtime.ServeMux.

@@ -19,200 +19,200 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// TigerhallKittensServiceClient is the client API for TigerhallKittensService service.
+// TigerSightingServiceClient is the client API for TigerSightingService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type TigerhallKittensServiceClient interface {
+type TigerSightingServiceClient interface {
 	// GetTigers API retrieve tigers data from database
 	GetTigers(ctx context.Context, in *GetTigersRequest, opts ...grpc.CallOption) (*GetTigersResponse, error)
 	// CreateTiger API create a new tiger in database
 	CreateTiger(ctx context.Context, in *CreateTigerRequest, opts ...grpc.CallOption) (*CreateTigerResponse, error)
-	// GetSightings API retrieve sightings data from database
+	// GetSightings API retrieve sightings data for given tiger ID from database
 	GetSightings(ctx context.Context, in *GetSightingsRequest, opts ...grpc.CallOption) (*GetSightingsResponse, error)
-	// CreateSighting API create a new sighting in database
+	// CreateSighting API create a new sighting for given tiger ID in database
 	CreateSighting(ctx context.Context, in *CreateSightingRequest, opts ...grpc.CallOption) (*CreateSightingResponse, error)
 }
 
-type tigerhallKittensServiceClient struct {
+type tigerSightingServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewTigerhallKittensServiceClient(cc grpc.ClientConnInterface) TigerhallKittensServiceClient {
-	return &tigerhallKittensServiceClient{cc}
+func NewTigerSightingServiceClient(cc grpc.ClientConnInterface) TigerSightingServiceClient {
+	return &tigerSightingServiceClient{cc}
 }
 
-func (c *tigerhallKittensServiceClient) GetTigers(ctx context.Context, in *GetTigersRequest, opts ...grpc.CallOption) (*GetTigersResponse, error) {
+func (c *tigerSightingServiceClient) GetTigers(ctx context.Context, in *GetTigersRequest, opts ...grpc.CallOption) (*GetTigersResponse, error) {
 	out := new(GetTigersResponse)
-	err := c.cc.Invoke(ctx, "/tiger.v1.TigerhallKittensService/GetTigers", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/tiger.v1.TigerSightingService/GetTigers", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *tigerhallKittensServiceClient) CreateTiger(ctx context.Context, in *CreateTigerRequest, opts ...grpc.CallOption) (*CreateTigerResponse, error) {
+func (c *tigerSightingServiceClient) CreateTiger(ctx context.Context, in *CreateTigerRequest, opts ...grpc.CallOption) (*CreateTigerResponse, error) {
 	out := new(CreateTigerResponse)
-	err := c.cc.Invoke(ctx, "/tiger.v1.TigerhallKittensService/CreateTiger", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/tiger.v1.TigerSightingService/CreateTiger", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *tigerhallKittensServiceClient) GetSightings(ctx context.Context, in *GetSightingsRequest, opts ...grpc.CallOption) (*GetSightingsResponse, error) {
+func (c *tigerSightingServiceClient) GetSightings(ctx context.Context, in *GetSightingsRequest, opts ...grpc.CallOption) (*GetSightingsResponse, error) {
 	out := new(GetSightingsResponse)
-	err := c.cc.Invoke(ctx, "/tiger.v1.TigerhallKittensService/GetSightings", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/tiger.v1.TigerSightingService/GetSightings", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *tigerhallKittensServiceClient) CreateSighting(ctx context.Context, in *CreateSightingRequest, opts ...grpc.CallOption) (*CreateSightingResponse, error) {
+func (c *tigerSightingServiceClient) CreateSighting(ctx context.Context, in *CreateSightingRequest, opts ...grpc.CallOption) (*CreateSightingResponse, error) {
 	out := new(CreateSightingResponse)
-	err := c.cc.Invoke(ctx, "/tiger.v1.TigerhallKittensService/CreateSighting", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/tiger.v1.TigerSightingService/CreateSighting", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// TigerhallKittensServiceServer is the server API for TigerhallKittensService service.
-// All implementations should embed UnimplementedTigerhallKittensServiceServer
+// TigerSightingServiceServer is the server API for TigerSightingService service.
+// All implementations should embed UnimplementedTigerSightingServiceServer
 // for forward compatibility
-type TigerhallKittensServiceServer interface {
+type TigerSightingServiceServer interface {
 	// GetTigers API retrieve tigers data from database
 	GetTigers(context.Context, *GetTigersRequest) (*GetTigersResponse, error)
 	// CreateTiger API create a new tiger in database
 	CreateTiger(context.Context, *CreateTigerRequest) (*CreateTigerResponse, error)
-	// GetSightings API retrieve sightings data from database
+	// GetSightings API retrieve sightings data for given tiger ID from database
 	GetSightings(context.Context, *GetSightingsRequest) (*GetSightingsResponse, error)
-	// CreateSighting API create a new sighting in database
+	// CreateSighting API create a new sighting for given tiger ID in database
 	CreateSighting(context.Context, *CreateSightingRequest) (*CreateSightingResponse, error)
 }
 
-// UnimplementedTigerhallKittensServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedTigerhallKittensServiceServer struct {
+// UnimplementedTigerSightingServiceServer should be embedded to have forward compatible implementations.
+type UnimplementedTigerSightingServiceServer struct {
 }
 
-func (UnimplementedTigerhallKittensServiceServer) GetTigers(context.Context, *GetTigersRequest) (*GetTigersResponse, error) {
+func (UnimplementedTigerSightingServiceServer) GetTigers(context.Context, *GetTigersRequest) (*GetTigersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTigers not implemented")
 }
-func (UnimplementedTigerhallKittensServiceServer) CreateTiger(context.Context, *CreateTigerRequest) (*CreateTigerResponse, error) {
+func (UnimplementedTigerSightingServiceServer) CreateTiger(context.Context, *CreateTigerRequest) (*CreateTigerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTiger not implemented")
 }
-func (UnimplementedTigerhallKittensServiceServer) GetSightings(context.Context, *GetSightingsRequest) (*GetSightingsResponse, error) {
+func (UnimplementedTigerSightingServiceServer) GetSightings(context.Context, *GetSightingsRequest) (*GetSightingsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSightings not implemented")
 }
-func (UnimplementedTigerhallKittensServiceServer) CreateSighting(context.Context, *CreateSightingRequest) (*CreateSightingResponse, error) {
+func (UnimplementedTigerSightingServiceServer) CreateSighting(context.Context, *CreateSightingRequest) (*CreateSightingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSighting not implemented")
 }
 
-// UnsafeTigerhallKittensServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to TigerhallKittensServiceServer will
+// UnsafeTigerSightingServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TigerSightingServiceServer will
 // result in compilation errors.
-type UnsafeTigerhallKittensServiceServer interface {
-	mustEmbedUnimplementedTigerhallKittensServiceServer()
+type UnsafeTigerSightingServiceServer interface {
+	mustEmbedUnimplementedTigerSightingServiceServer()
 }
 
-func RegisterTigerhallKittensServiceServer(s grpc.ServiceRegistrar, srv TigerhallKittensServiceServer) {
-	s.RegisterService(&TigerhallKittensService_ServiceDesc, srv)
+func RegisterTigerSightingServiceServer(s grpc.ServiceRegistrar, srv TigerSightingServiceServer) {
+	s.RegisterService(&TigerSightingService_ServiceDesc, srv)
 }
 
-func _TigerhallKittensService_GetTigers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TigerSightingService_GetTigers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetTigersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TigerhallKittensServiceServer).GetTigers(ctx, in)
+		return srv.(TigerSightingServiceServer).GetTigers(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/tiger.v1.TigerhallKittensService/GetTigers",
+		FullMethod: "/tiger.v1.TigerSightingService/GetTigers",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TigerhallKittensServiceServer).GetTigers(ctx, req.(*GetTigersRequest))
+		return srv.(TigerSightingServiceServer).GetTigers(ctx, req.(*GetTigersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TigerhallKittensService_CreateTiger_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TigerSightingService_CreateTiger_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateTigerRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TigerhallKittensServiceServer).CreateTiger(ctx, in)
+		return srv.(TigerSightingServiceServer).CreateTiger(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/tiger.v1.TigerhallKittensService/CreateTiger",
+		FullMethod: "/tiger.v1.TigerSightingService/CreateTiger",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TigerhallKittensServiceServer).CreateTiger(ctx, req.(*CreateTigerRequest))
+		return srv.(TigerSightingServiceServer).CreateTiger(ctx, req.(*CreateTigerRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TigerhallKittensService_GetSightings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TigerSightingService_GetSightings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetSightingsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TigerhallKittensServiceServer).GetSightings(ctx, in)
+		return srv.(TigerSightingServiceServer).GetSightings(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/tiger.v1.TigerhallKittensService/GetSightings",
+		FullMethod: "/tiger.v1.TigerSightingService/GetSightings",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TigerhallKittensServiceServer).GetSightings(ctx, req.(*GetSightingsRequest))
+		return srv.(TigerSightingServiceServer).GetSightings(ctx, req.(*GetSightingsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TigerhallKittensService_CreateSighting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TigerSightingService_CreateSighting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateSightingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TigerhallKittensServiceServer).CreateSighting(ctx, in)
+		return srv.(TigerSightingServiceServer).CreateSighting(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/tiger.v1.TigerhallKittensService/CreateSighting",
+		FullMethod: "/tiger.v1.TigerSightingService/CreateSighting",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TigerhallKittensServiceServer).CreateSighting(ctx, req.(*CreateSightingRequest))
+		return srv.(TigerSightingServiceServer).CreateSighting(ctx, req.(*CreateSightingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// TigerhallKittensService_ServiceDesc is the grpc.ServiceDesc for TigerhallKittensService service.
+// TigerSightingService_ServiceDesc is the grpc.ServiceDesc for TigerSightingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var TigerhallKittensService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "tiger.v1.TigerhallKittensService",
-	HandlerType: (*TigerhallKittensServiceServer)(nil),
+var TigerSightingService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "tiger.v1.TigerSightingService",
+	HandlerType: (*TigerSightingServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetTigers",
-			Handler:    _TigerhallKittensService_GetTigers_Handler,
+			Handler:    _TigerSightingService_GetTigers_Handler,
 		},
 		{
 			MethodName: "CreateTiger",
-			Handler:    _TigerhallKittensService_CreateTiger_Handler,
+			Handler:    _TigerSightingService_CreateTiger_Handler,
 		},
 		{
 			MethodName: "GetSightings",
-			Handler:    _TigerhallKittensService_GetSightings_Handler,
+			Handler:    _TigerSightingService_GetSightings_Handler,
 		},
 		{
 			MethodName: "CreateSighting",
-			Handler:    _TigerhallKittensService_CreateSighting_Handler,
+			Handler:    _TigerSightingService_CreateSighting_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

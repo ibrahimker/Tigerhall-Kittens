@@ -10,7 +10,7 @@ import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 
-service TigerhallKittensService {
+service TigerSightingService {
   // GetTigers API retrieve tigers data from database
   rpc GetTigers(GetTigersRequest) returns (GetTigersResponse) {
     option (google.api.http) = {
@@ -26,17 +26,17 @@ service TigerhallKittensService {
     };
   }
 
-  // GetSightings API retrieve sightings data from database
+  // GetSightings API retrieve sightings data for given tiger ID from database
   rpc GetSightings(GetSightingsRequest) returns (GetSightingsResponse) {
     option (google.api.http) = {
-      get : "/v1/sighting",
+      get : "/v1/tiger/{id}/sighting",
     };
   }
 
-  // CreateSighting API create a new sighting in database
+  // CreateSighting API create a new sighting for given tiger ID in database
   rpc CreateSighting(CreateSightingRequest) returns (CreateSightingResponse) {
     option (google.api.http) = {
-      post : "/v1/sighting",
+      post : "/v1/tiger/{id}/sighting",
       body : "*"
     };
   }
@@ -58,6 +58,7 @@ message CreateTigerResponse {
 }
 
 message GetSightingsRequest {
+  int32 id = 1;
 }
 
 message GetSightingsResponse {
@@ -65,7 +66,8 @@ message GetSightingsResponse {
 }
 
 message CreateSightingRequest {
-  Sighting sighting = 1;
+  int32 id = 1;
+  Sighting sighting = 2;
 }
 
 message CreateSightingResponse {
