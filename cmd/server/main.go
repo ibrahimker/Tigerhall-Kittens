@@ -16,6 +16,7 @@ import (
 	"github.com/ibrahimker/tigerhall-kittens/common/logging"
 	"github.com/ibrahimker/tigerhall-kittens/common/postgres"
 	"github.com/ibrahimker/tigerhall-kittens/common/redis"
+	sightingv1 "github.com/ibrahimker/tigerhall-kittens/modules/sighting/v1"
 	"github.com/ibrahimker/tigerhall-kittens/server"
 )
 
@@ -85,7 +86,7 @@ func registerGrpcHandlers(server *grpc.Server, cfg *config.Config, pgpool *pgxpo
 	rds *goredis.Client, logger *logrus.Entry) {
 	// start register all module's gRPC handlers
 
-	// examplev2.InitGrpc(server, cfg, ps, pgpool, rds, logger)
+	sightingv1.InitGrpc(server, cfg, pgpool, rds, logger)
 	// end of register all module's gRPC handlers
 }
 
@@ -93,6 +94,7 @@ func registerRestHandlers(ctx context.Context, cfg *config.Config, server *runti
 	// start register all module's REST handlers
 	options = append(options, grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(maxCallRecvMsgSize)))
 	// examplev2.InitRest(ctx, server, grpcPort, options...)
+	sightingv1.InitRest(ctx, server, grpcPort, logger, options...)
 	// end of register all module's REST handlers
 }
 

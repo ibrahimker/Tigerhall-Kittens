@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package tiger.v1;
+
+option go_package = "github.com/ibrahimker/tigerhall-kittens/api/tiger/v1;tigerv1";
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+service TigerhallKittensService {
+  // GetTigers API retrieve tigers data from database
+  rpc GetTigers(GetTigersRequest) returns (GetTigersResponse) {
+    option (google.api.http) = {
+      get : "/v1/tiger",
+    };
+  }
+
+  // CreateTiger API create a new tiger in database
+  rpc CreateTiger(CreateTigerRequest) returns (CreateTigerResponse) {
+    option (google.api.http) = {
+      post : "/v1/tiger",
+      body : "*"
+    };
+  }
+
+  // GetSightings API retrieve sightings data from database
+  rpc GetSightings(GetSightingsRequest) returns (GetSightingsResponse) {
+    option (google.api.http) = {
+      get : "/v1/sighting",
+    };
+  }
+
+  // CreateSighting API create a new sighting in database
+  rpc CreateSighting(CreateSightingRequest) returns (CreateSightingResponse) {
+    option (google.api.http) = {
+      post : "/v1/sighting",
+      body : "*"
+    };
+  }
+}
+
+message GetTigersRequest {
+}
+
+message GetTigersResponse {
+  repeated Tiger data = 1;
+}
+
+message CreateTigerRequest {
+  Tiger tiger = 1;
+}
+
+message CreateTigerResponse {
+  string message = 1;
+}
+
+message GetSightingsRequest {
+}
+
+message GetSightingsResponse {
+  repeated Sighting data = 1;
+}
+
+message CreateSightingRequest {
+  Sighting sighting = 1;
+}
+
+message CreateSightingResponse {
+  string message = 1;
+}
+
+message GeoLocation {
+  google.protobuf.DoubleValue longitude = 1;
+  google.protobuf.DoubleValue latitude = 2;
+}
+
+message Tiger {
+  int32 id = 1;
+  string name = 2;
+  google.protobuf.Timestamp last_seen_timestamp = 3;
+  GeoLocation last_seen_coordinate = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+message Sighting {
+  int32 id = 1;
+  google.protobuf.Timestamp seen_at = 2;
+  GeoLocation coordinate = 3;
+  string image_url = 4;
+}
