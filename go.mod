@@ -17,6 +17,7 @@ require (
 	github.com/kenshaw/stringid v0.1.1
 	github.com/newrelic/go-agent/v3 v3.13.0
 	github.com/newrelic/go-agent/v3/integrations/nrredis-v8 v1.0.0
+	github.com/pashagolub/pgxmock v1.2.0
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.7.0
