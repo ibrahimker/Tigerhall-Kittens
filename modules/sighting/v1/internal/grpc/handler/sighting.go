@@ -52,8 +52,8 @@ func (s *TigerSighting) CreateTiger(ctx context.Context, req *tigerv1.CreateTige
 		Name:              req.GetName(),
 		DateOfBirth:       req.GetDateOfBirth().AsTime(),
 		LastSeenTimestamp: req.GetLastSeenTimestamp().AsTime(),
-		LastSeenLatitude:  req.GetLastSeenLatitude().Value,
-		LastSeenLongitude: req.GetLastSeenLongitude().Value,
+		LastSeenLatitude:  req.GetLastSeenLatitude().GetValue(),
+		LastSeenLongitude: req.GetLastSeenLongitude().GetValue(),
 	}); err != nil {
 		logging.WithError(err, logger).Error("Error when call s.sightingSvc.CreateTiger")
 		return nil, err

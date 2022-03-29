@@ -86,6 +86,14 @@ func (t *TigerSightingService) GetTigers(ctx context.Context) (tigers []*entity.
 // CreateTiger store a new tiger in database
 func (t *TigerSightingService) CreateTiger(ctx context.Context, tiger *entity.Tiger) error {
 	logger := logging.NewServiceLogger(ctx, "CreateTiger", logrus.Fields{})
+
+	// validate input
+	if err := isValidTiger(tiger); err != nil {
+		logging.WithError(err, logger).Warn("Error when get from validate tiger")
+		return err
+	}
+
+	// insert to repo
 	if err := t.repo.CreateTiger(ctx, tiger); err != nil {
 		logging.WithError(err, logger).Warn("Error when get from repo.CreateTiger")
 		return err
