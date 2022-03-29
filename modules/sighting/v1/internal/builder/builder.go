@@ -16,9 +16,9 @@ import (
 )
 
 // BuildTigerSightingHandler builds tiger sighting handler including all of its dependencies.
-func BuildTigerSightingHandler(cfg *config.Config, pool *pgxpool.Pool, rds *goredis.Client, logger *logrus.Entry) *handler.Sighting {
+func BuildTigerSightingHandler(cfg *config.Config, pool *pgxpool.Pool, rds *goredis.Client, logger *logrus.Entry) *handler.TigerSighting {
 	redisRepo := redis.NewRedisClient(rds)
 	tigerSightingRepo := postgres.NewTigerSightingRepo(pool)
 	tigerSightingService := service.NewTigerSightingService(tigerSightingRepo, redisRepo)
-	return handler.NewSighting(logger, tigerSightingService)
+	return handler.NewTigerSighting(logger, tigerSightingService)
 }

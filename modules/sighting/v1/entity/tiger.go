@@ -14,17 +14,20 @@ const (
 )
 
 // Tiger is a struct to model tiger data
+// we use float64 in lat/long because we don't need to calculate the distance so precise
 type Tiger struct {
 	ID                int32        `json:"id"`
 	Name              string       `json:"name"`
+	DateOfBirth       time.Time    `json:"date_of_birth"`
 	LastSeenTimestamp time.Time    `json:"last_seen_timestamp"`
 	LastSeenLatitude  float64      `json:"last_seen_latitude"`
-	LastSeenLongitude float64      `json:"last_seen_ongitude"`
+	LastSeenLongitude float64      `json:"last_seen_longitude"`
 	CreatedAt         sql.NullTime `json:"created_at"`
 	UpdatedAt         sql.NullTime `json:"updated_at"`
 }
 
 // Sighting is a struct to model sighting of tiger data
+// we use float64 in lat/long because we don't need to calculate the distance so precise
 type Sighting struct {
 	ID        int32     `json:"id"`
 	TigerID   int32     `json:"tiger_id"`

@@ -8,40 +8,69 @@ import (
 	"github.com/sirupsen/logrus"
 
 	tigerv1 "github.com/ibrahimker/tigerhall-kittens/api/proto"
+	"github.com/ibrahimker/tigerhall-kittens/common/logging"
+	"github.com/ibrahimker/tigerhall-kittens/modules/sighting/v1/entity"
 	"github.com/ibrahimker/tigerhall-kittens/modules/sighting/v1/service"
 )
 
-// Sighting handles HTTP/2 gRPC request for tiger sighting services.
-type Sighting struct {
+// TigerSighting handles HTTP/2 gRPC request for tiger sighting services.
+type TigerSighting struct {
 	tigerv1.UnimplementedTigerSightingServiceServer
 	logger      *logrus.Entry
 	sightingSvc service.TigerSighting
 }
 
-// NewSighting creates an instance of Sighting.
-func NewSighting(logger *logrus.Entry, sightingSvc service.TigerSighting) *Sighting {
-	return &Sighting{
+// NewTigerSighting creates an instance of TigerSighting.
+func NewTigerSighting(logger *logrus.Entry, sightingSvc service.TigerSighting) *TigerSighting {
+	return &TigerSighting{
 		logger:      logger,
 		sightingSvc: sightingSvc,
 	}
 }
 
 // GetTigers handles HTTP/2 gRPC request similar to GET in HTTP/1.1.
-func (s *Sighting) GetTigers(ctx context.Context, req *tigerv1.GetTigersRequest) (*tigerv1.GetTigersResponse, error) {
-	return &tigerv1.GetTigersResponse{}, nil
+func (s *TigerSighting) GetTigers(ctx context.Context, req *tigerv1.GetTigersRequest) (*tigerv1.GetTigersResponse, error) {
+	logger, ctx := logging.NewHandlerLogger(ctx, s.logger, "GetTigers", req)
+
+	data, err := s.sightingSvc.GetTigers(ctx)
+	if err != nil {
+		logging.WithError(err, logger).Error("Error when call s.sightingSvc.GetTigers")
+		return nil, err
+	}
+
+	res := &tigerv1.GetTigersResponse{
+		Data: composeTigersProto(data),
+	}
+	return res, nil
 }
 
 // CreateTiger handles HTTP/2 gRPC request similar to POST in HTTP/1.1.
-func (s *Sighting) CreateTiger(ctx context.Context, req *tigerv1.CreateTigerRequest) (*tigerv1.CreateTigerResponse, error) {
-	return &tigerv1.CreateTigerResponse{}, nil
+func (s *TigerSighting) CreateTiger(ctx context.Context, req *tigerv1.CreateTigerRequest) (*tigerv1.CreateTigerResponse, error) {
+	logger, ctx := logging.NewHandlerLogger(ctx, s.logger, "GetTigers", req)
+
+	if err := s.sightingSvc.CreateTiger(ctx, &entity.Tiger{
+		Name:              req.GetName(),
+		DateOfBirth:       req.GetDateOfBirth().AsTime(),
+		LastSeenTimestamp: req.GetLastSeenTimestamp().AsTime(),
+		LastSeenLatitude:  req.GetLastSeenLatitude().Value,
+		LastSeenLongitude: req.GetLastSeenLongitude().Value,
+	}); err != nil {
+		logging.WithError(err, logger).Error("Error when call s.sightingSvc.CreateTiger")
+		return nil, err
+	}
+
+	res := &tigerv1.CreateTigerResponse{
+		Message: "Successfully create new tiger",
+	}
+	return res, nil
 }
 
 // GetSightings handles HTTP/2 gRPC request similar to GET in HTTP/1.1.
-func (s *Sighting) GetSightings(ctx context.Context, req *tigerv1.GetSightingsRequest) (*tigerv1.GetSightingsResponse, error) {
+func (s *TigerSighting) GetSightings(ctx context.Context, req *tigerv1.GetSightingsRequest) (*tigerv1.GetSightingsResponse, error) {
 	return &tigerv1.GetSightingsResponse{}, nil
 }
 
 // CreateSighting handles HTTP/2 gRPC request similar to POST in HTTP/1.1.
-func (s *Sighting) CreateSighting(ctx context.Context, req *tigerv1.CreateSightingRequest) (*tigerv1.CreateSightingResponse, error) {
+func (s *TigerSighting) CreateSighting(ctx context.Context, req *tigerv1.CreateSightingRequest) (*tigerv1.CreateSightingResponse, error) {
 	return &tigerv1.CreateSightingResponse{}, nil
 }

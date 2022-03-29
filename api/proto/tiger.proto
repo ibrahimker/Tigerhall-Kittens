@@ -50,7 +50,11 @@ message GetTigersResponse {
 }
 
 message CreateTigerRequest {
-  Tiger tiger = 1;
+  string name = 1;
+  google.protobuf.Timestamp date_of_birth = 2;
+  google.protobuf.Timestamp last_seen_timestamp = 3;
+  google.protobuf.DoubleValue last_seen_latitude = 4;
+  google.protobuf.DoubleValue last_seen_longitude = 5;
 }
 
 message CreateTigerResponse {
@@ -67,30 +71,31 @@ message GetSightingsResponse {
 
 message CreateSightingRequest {
   int32 id = 1;
-  Sighting sighting = 2;
+  google.protobuf.Timestamp seen_at = 2;
+  google.protobuf.DoubleValue latitude = 3;
+  google.protobuf.DoubleValue longitude = 4;
+  string image_url = 5;
 }
 
 message CreateSightingResponse {
   string message = 1;
 }
 
-message GeoLocation {
-  google.protobuf.DoubleValue longitude = 1;
-  google.protobuf.DoubleValue latitude = 2;
-}
-
 message Tiger {
   int32 id = 1;
   string name = 2;
-  google.protobuf.Timestamp last_seen_timestamp = 3;
-  GeoLocation last_seen_coordinate = 4;
-  google.protobuf.Timestamp created_at = 5;
-  google.protobuf.Timestamp updated_at = 6;
+  google.protobuf.Timestamp date_of_birth = 3;
+  google.protobuf.Timestamp last_seen_timestamp = 4;
+  google.protobuf.DoubleValue last_seen_latitude = 5;
+  google.protobuf.DoubleValue last_seen_longitude = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
 }
 
 message Sighting {
   int32 id = 1;
   google.protobuf.Timestamp seen_at = 2;
-  GeoLocation coordinate = 3;
-  string image_url = 4;
+  google.protobuf.DoubleValue latitude = 3;
+  google.protobuf.DoubleValue longitude = 4;
+  string image_url = 5;
 }
