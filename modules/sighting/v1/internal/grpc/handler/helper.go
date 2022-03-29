@@ -23,3 +23,16 @@ func composeTigersProto(req []*entity.Tiger) (res []*tigerv1.Tiger) {
 	}
 	return res
 }
+
+func composeSightingsProto(req []*entity.Sighting) (res []*tigerv1.Sighting) {
+	for _, v := range req {
+		res = append(res, &tigerv1.Sighting{
+			Id:        v.ID,
+			SeenAt:    timestamppb.New(v.SeenAt),
+			Latitude:  wrapperspb.Double(v.Latitude),
+			Longitude: wrapperspb.Double(v.Longitude),
+			ImageUrl:  v.ImageURL,
+		})
+	}
+	return res
+}

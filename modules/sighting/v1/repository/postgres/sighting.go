@@ -93,8 +93,35 @@ func (t *TigerSightingRepo) CreateTiger(ctx context.Context, tiger *entity.Tiger
 
 // GetSightingsByTigerID get list of sightings for given tiger ID order by latest sighting
 func (t *TigerSightingRepo) GetSightingsByTigerID(ctx context.Context, tigerID int32) ([]*entity.Sighting, error) {
-	// TODO: implement me
-	panic("implement me")
+	logger := logging.NewRepoLogger(ctx, "GetSightingsByTigerID", logrus.Fields{})
+
+	queryString := `SELECT id,tiger_id,seen_at,latitude,longitude,image_url,created_at,updated_at
+FROM sighting.sighting WHERE tiger_id = $1 and deleted_at IS NULL ORDER BY seen_at desc`
+	rows, err := queryWrapper(ctx, t.pool, queryString, tigerID)
+	if err != nil {
+		logging.WithError(err, logger).Warn("Error when hit query wrapper")
+		return []*entity.Sighting{}, err
+	}
+	defer rows.Close()
+
+	var res []*entity.Sighting
+	for rows.Next() {
+		var tmp entity.Sighting
+		if serr := rows.Scan(
+			&tmp.ID, &tmp.TigerID, &tmp.SeenAt, &tmp.Latitude, &tmp.Longitude, &tmp.ImageURL,
+			&tmp.CreatedAt, &tmp.UpdatedAt,
+		); serr != nil {
+			logging.WithError(serr, logger).Warn("Error when scan rows")
+			continue
+		}
+		res = append(res, &tmp)
+	}
+	if rows.Err() != nil {
+		logging.WithError(rows.Err(), logger).Warn("Error when check rows")
+		return []*entity.Sighting{}, rows.Err()
+	}
+
+	return res, nil
 }
 
 // CreateSighting store a new sighting for given tiger ID in database

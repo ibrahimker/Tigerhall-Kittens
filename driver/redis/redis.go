@@ -76,12 +76,7 @@ func get(ctx context.Context, key string, value interface{}) error {
 	return err
 }
 
-func set(ctx context.Context, key string, value interface{}, expiration time.Duration) error {
-	bytes, err := json.Marshal(value)
-	if err != nil {
-		return err
-	}
-
-	err = RedisClient.Set(ctx, key, bytes, expiration).Err()
+func set(ctx context.Context, key string, bytes []byte, expiration time.Duration) error {
+	err := RedisClient.Set(ctx, key, bytes, expiration).Err()
 	return err
 }
