@@ -62,6 +62,9 @@ compile-server:
 docker-build-server:
 	docker build --no-cache -t tigerhall-kittens-server:latest -f dockerfiles/server/Dockerfile .
 
+.PHONY: rebuild-server
+rebuild-server: pretty compile-server docker-build-server
+
 .PHONY: all-db-migrate
 all-db-migrate:
 	bin/migrate.sh $(url)

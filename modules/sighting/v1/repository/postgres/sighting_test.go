@@ -203,8 +203,92 @@ func TestGetSightingsByTigerID(t *testing.T) {
 	t.Parallel()
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
+	queryString := `SELECT id,tiger_id,seen_at,latitude,longitude,image_url,created_at,updated_at
+FROM sighting.sighting WHERE tiger_id = \$1 and deleted_at IS NULL ORDER BY seen_at desc`
+	queryStringRow := []string{"id", "tiger_id", "seen_at", "latitude", "longitude", "image_url", "created_at", "updated_at"}
+	expQueryStringRes := []interface{}{int32(1), int32(1), time.Now(), -6.19, 108.0, "https://test.com/dummy.jpeg", sql.NullTime{Time: time.Now()}, sql.NullTime{Time: time.Now()}}
+	tigerID := int32(1)
 
-	testCases := []RepositoryTestCases{}
+	testCases := []RepositoryTestCases{
+		{
+			testcaseName: "database returns no rows when scanning",
+			testcaseFunction: func(t *testing.T) {
+				repositorySuite := SightingRepositoryTestSuite()
+				repositorySuite.pgx.
+					ExpectQuery(queryString).
+					WillReturnError(pgx.ErrNoRows)
+
+				resData, err := repositorySuite.repo.GetSightingsByTigerID(context.Background(), tigerID)
+				require.Error(t, err)
+				require.Equal(t, 0, len(resData))
+			},
+		},
+		{
+			testcaseName: "database returns no rows when scanning",
+			testcaseFunction: func(t *testing.T) {
+				t.Parallel()
+
+				repositorySuite := SightingRepositoryTestSuite()
+				repositorySuite.pgx.
+					ExpectQuery(queryString).
+					WillReturnError(pgx.ErrNoRows)
+
+				resData, err := repositorySuite.repo.GetSightingsByTigerID(context.Background(), tigerID)
+				require.Error(t, err)
+				require.Equal(t, 0, len(resData))
+			},
+		},
+		{
+			testcaseName: "Error when scanning rows",
+			testcaseFunction: func(t *testing.T) {
+				repositorySuite := SightingRepositoryTestSuite()
+				repositorySuite.pgx.
+					ExpectQuery(queryString).
+					WillReturnRows(pgxmock.
+						NewRows([]string{"id"}).
+						AddRow("test-id"),
+					)
+
+				resData, err := repositorySuite.repo.GetSightingsByTigerID(context.Background(), tigerID)
+				require.NoError(t, err)
+				require.Equal(t, 0, len(resData))
+			},
+		},
+		{
+			testcaseName: "Error when check rows",
+			testcaseFunction: func(t *testing.T) {
+				repositorySuite := SightingRepositoryTestSuite()
+				repositorySuite.pgx.
+					ExpectQuery(queryString).
+					WillReturnRows(pgxmock.
+						NewRows(queryStringRow).
+						AddRow(expQueryStringRes...).RowError(1, pgx.ErrNoRows),
+					)
+
+				resData, err := repositorySuite.repo.GetSightingsByTigerID(context.Background(), tigerID)
+				require.Error(t, err)
+				require.Equal(t, 0, len(resData))
+			},
+		},
+		{
+			testcaseName: "sucessfullly retrieve sighting data",
+			testcaseFunction: func(t *testing.T) {
+				t.Parallel()
+				repositorySuite := SightingRepositoryTestSuite()
+				repositorySuite.pgx.
+					ExpectQuery(queryString).
+					WillReturnRows(pgxmock.
+						NewRows(queryStringRow).
+						AddRow(expQueryStringRes...),
+					)
+
+				resData, err := repositorySuite.repo.GetSightingsByTigerID(context.Background(), tigerID)
+				require.NoError(t, err)
+				require.Equal(t, 1, len(resData))
+				require.Equal(t, expQueryStringRes, expQueryStringRes)
+			},
+		},
+	}
 
 	for _, tc := range testCases {
 		t.Run(tc.testcaseName, tc.testcaseFunction)

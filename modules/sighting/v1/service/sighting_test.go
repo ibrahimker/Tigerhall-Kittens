@@ -3,6 +3,7 @@ package service_test
 import (
 	"context"
 	"errors"
+	"fmt"
 	"testing"
 	"time"
 
@@ -93,7 +94,7 @@ func TestGetTigers(t *testing.T) {
 				t.Parallel()
 
 				serviceTestSuite := TigerSightingServiceTestSuite(mockCtrl)
-				callbackFunc := func(ctx context.Context, key string, anySchoolProfile *[]*entity.Tiger, ttl time.Duration, callback func() (interface{}, error)) {
+				callbackFunc := func(ctx context.Context, key string, anyTigers *[]*entity.Tiger, ttl time.Duration, callback func() (interface{}, error)) {
 					serviceTestSuite.sightingRepo.EXPECT().GetTigers(mockCtx).Return(nil, errors.New("db error"))
 					_, _ = callback()
 				}
@@ -111,7 +112,7 @@ func TestGetTigers(t *testing.T) {
 				t.Parallel()
 
 				serviceTestSuite := TigerSightingServiceTestSuite(mockCtrl)
-				callbackFunc := func(ctx context.Context, key string, anySchoolProfile *[]*entity.Tiger, ttl time.Duration, callback func() (interface{}, error)) {
+				callbackFunc := func(ctx context.Context, key string, anyTigers *[]*entity.Tiger, ttl time.Duration, callback func() (interface{}, error)) {
 					serviceTestSuite.sightingRepo.EXPECT().GetTigers(mockCtx).Return(tigerData, nil)
 					_, _ = callback()
 				}
@@ -233,10 +234,69 @@ func TestCreateTiger(t *testing.T) {
 
 func TestGetSightingsByTigerID(t *testing.T) {
 	t.Parallel()
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
 
-	testCases := []ServiceTestCase{}
+	mockCtx := context.Background()
+	var emptySighting []*entity.Sighting
+	sightingsData := []*entity.Sighting{{ID: 1}}
+	mockTTL := 1 * time.Minute
+	tigerID := int32(1)
+
+	testCases := []ServiceTestCase{
+		{
+			testcaseName: "successfully get the data from redis",
+			testcaseFunction: func(t *testing.T) {
+				t.Parallel()
+
+				serviceTestSuite := TigerSightingServiceTestSuite(mockCtrl)
+				serviceTestSuite.redisRepo.EXPECT().Fetch(mockCtx, fmt.Sprintf(service.GetSightingsByTigerIDKey, tigerID), &emptySighting, mockTTL, gomock.Any()).
+					SetArg(2, sightingsData).Return(nil)
+
+				resData, resErr := serviceTestSuite.sightingSvc.GetSightingsByTigerID(mockCtx, tigerID)
+
+				require.NoError(t, resErr)
+				require.NotNil(t, resData)
+				require.Equal(t, sightingsData, resData)
+			},
+		},
+		{
+			testcaseName: "Error when retrieve from database",
+			testcaseFunction: func(t *testing.T) {
+				t.Parallel()
+
+				serviceTestSuite := TigerSightingServiceTestSuite(mockCtrl)
+				callbackFunc := func(ctx context.Context, key string, anySightings *[]*entity.Sighting, ttl time.Duration, callback func() (interface{}, error)) {
+					serviceTestSuite.sightingRepo.EXPECT().GetSightingsByTigerID(mockCtx, tigerID).Return(nil, errors.New("db error"))
+					_, _ = callback()
+				}
+
+				serviceTestSuite.redisRepo.EXPECT().Fetch(mockCtx, fmt.Sprintf(service.GetSightingsByTigerIDKey, tigerID), &emptySighting, mockTTL, gomock.Any()).Do(callbackFunc).Return(errors.New("db error"))
+
+				resData, resErr := serviceTestSuite.sightingSvc.GetSightingsByTigerID(mockCtx, tigerID)
+				require.Equal(t, errors.New("db error"), resErr)
+				require.Nil(t, resData)
+			},
+		},
+		{
+			testcaseName: "successfully get all the data from database",
+			testcaseFunction: func(t *testing.T) {
+				t.Parallel()
+
+				serviceTestSuite := TigerSightingServiceTestSuite(mockCtrl)
+				callbackFunc := func(ctx context.Context, key string, anySightings *[]*entity.Sighting, ttl time.Duration, callback func() (interface{}, error)) {
+					serviceTestSuite.sightingRepo.EXPECT().GetSightingsByTigerID(mockCtx, tigerID).Return(sightingsData, nil)
+					_, _ = callback()
+				}
+
+				serviceTestSuite.redisRepo.EXPECT().Fetch(mockCtx, fmt.Sprintf(service.GetSightingsByTigerIDKey, tigerID), &emptySighting, mockTTL, gomock.Any()).Do(callbackFunc).Return(nil)
+
+				resData, resErr := serviceTestSuite.sightingSvc.GetSightingsByTigerID(mockCtx, tigerID)
+				require.NoError(t, resErr)
+				require.NotNil(t, resData)
+			},
+		},
+	}
 
 	for _, tc := range testCases {
 		t.Run(tc.testcaseName, tc.testcaseFunction)

@@ -4,6 +4,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -18,6 +19,8 @@ const (
 	BaseKey = entity.ModuleName + ":" + entity.ModuleVersion + ":"
 	// GetTigersKey is a base key for caching GetTigers service
 	GetTigersKey = BaseKey + "sighting:get-tigers"
+	// GetSightingsByTigerIDKey is a base key for caching GetSightingsByTigerID service
+	GetSightingsByTigerIDKey = BaseKey + "sighting:get-sightings-by-tiger:%d"
 )
 
 var (
@@ -102,9 +105,23 @@ func (t *TigerSightingService) CreateTiger(ctx context.Context, tiger *entity.Ti
 }
 
 // GetSightingsByTigerID get list of sightings for given tiger ID order by latest sighting
-func (t *TigerSightingService) GetSightingsByTigerID(ctx context.Context, tigerID int32) ([]*entity.Sighting, error) {
-	// TODO: implement me
-	panic("implement me")
+func (t *TigerSightingService) GetSightingsByTigerID(ctx context.Context, tigerID int32) (sightings []*entity.Sighting, err error) {
+	logger := logging.NewServiceLogger(ctx, "GetSightingsByTigerID", logrus.Fields{})
+
+	// Get data cache from Redis, if data empty or not found then get tiger data from Database
+	if err = t.redisRepo.Fetch(ctx, fmt.Sprintf(GetSightingsByTigerIDKey, tigerID), &sightings, GetTigersRedisTTL, func() (interface{}, error) {
+		sightings, err = t.repo.GetSightingsByTigerID(ctx, tigerID)
+		if err != nil {
+			logging.WithError(err, logger).Warn("Error when get from repo.GetSightingsByTigerID")
+			return nil, err
+		}
+		return sightings, nil
+	}); err != nil {
+		logging.WithError(err, logger).Warn("Error when get from redisRepo.Fetch")
+		return nil, err
+	}
+
+	return sightings, nil
 }
 
 // CreateSighting store a new sighting for given tiger ID in database if not within 5 km of previous sighting

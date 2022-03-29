@@ -149,3 +149,41 @@ func TestHelpCenterService_CreateTiger(t *testing.T) {
 		t.Run(tc.testcaseName, tc.testcaseFunction)
 	}
 }
+
+func TestHelpCenterService_GetSightings(t *testing.T) {
+	t.Parallel()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	tigerID := int32(1)
+
+	mockCtx := context.Background()
+	testCases := []HandlerTestCase{
+		{
+			testcaseName: "Error when hit service",
+			testcaseFunction: func(t *testing.T) {
+				t.Parallel()
+				serviceSuite := TigerSightingServiceTestSuite(mockCtrl)
+				serviceSuite.sightingSvc.EXPECT().GetSightingsByTigerID(gomock.Any(), tigerID).Return(nil, errors.New("db error"))
+
+				resData, resErr := serviceSuite.sightingHandler.GetSightings(mockCtx, &tigerv1.GetSightingsRequest{Id: tigerID})
+				require.Error(t, resErr)
+				require.Nil(t, resData)
+			},
+		},
+		{
+			testcaseName: "Successfully hit service",
+			testcaseFunction: func(t *testing.T) {
+				t.Parallel()
+				serviceSuite := TigerSightingServiceTestSuite(mockCtrl)
+				serviceSuite.sightingSvc.EXPECT().GetSightingsByTigerID(gomock.Any(), tigerID).Return([]*entity.Sighting{{ID: 1}}, nil)
+
+				resData, resErr := serviceSuite.sightingHandler.GetSightings(mockCtx, &tigerv1.GetSightingsRequest{Id: tigerID})
+				require.Nil(t, resErr)
+				require.Equal(t, 1, len(resData.Data))
+			},
+		},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.testcaseName, tc.testcaseFunction)
+	}
+}

@@ -67,7 +67,18 @@ func (s *TigerSighting) CreateTiger(ctx context.Context, req *tigerv1.CreateTige
 
 // GetSightings handles HTTP/2 gRPC request similar to GET in HTTP/1.1.
 func (s *TigerSighting) GetSightings(ctx context.Context, req *tigerv1.GetSightingsRequest) (*tigerv1.GetSightingsResponse, error) {
-	return &tigerv1.GetSightingsResponse{}, nil
+	logger, ctx := logging.NewHandlerLogger(ctx, s.logger, "GetTigers", req)
+
+	data, err := s.sightingSvc.GetSightingsByTigerID(ctx, req.GetId())
+	if err != nil {
+		logging.WithError(err, logger).Error("Error when call s.sightingSvc.GetSightingsByTigerID")
+		return nil, err
+	}
+
+	res := &tigerv1.GetSightingsResponse{
+		Data: composeSightingsProto(data),
+	}
+	return res, nil
 }
 
 // CreateSighting handles HTTP/2 gRPC request similar to POST in HTTP/1.1.
