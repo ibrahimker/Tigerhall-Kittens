@@ -1,5 +1,17 @@
 version: v1
 name: buf.build/tigerhall-kittens/api
+build:
+  excludes:
+    - gen
+lint:
+  use:
+    - BASIC
+breaking:
+  use:
+    - FILE
+  except:
+    - FILE_NO_DELETE
+  ignore_unstable_packages: true
 
 deps:
   - buf.build/googleapis/googleapis
