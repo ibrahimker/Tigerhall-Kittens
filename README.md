@@ -42,4 +42,5 @@ $ make migrate url="postgres://postgresuser:postgrespassword@localhost:5432/tige
 
 After you run migration, now the API is ready to be hit. Import [Postman Colletcion](doc/Tigerhall Kittens.postman_collection.json) to postman (or your respective http client) then just hit the API
 
-https://github.com/ibrahimker/Tigerhall-Kittens/blob/master/doc/testing.mp4
+https://user-images.githubusercontent.com/4213412/160759746-3521b0dc-b526-4755-8f7f-d3dc34eb14e6.mp4
+
