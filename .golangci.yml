@@ -24,7 +24,6 @@ linters:
     - megacheck
     - misspell
     - nakedret
-    - noctx
     - nolintlint
     - prealloc
     - revive

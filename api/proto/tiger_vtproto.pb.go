@@ -381,10 +381,10 @@ func (m *CreateSightingRequest) MarshalToSizedBufferVT(dAtA []byte) (int, error)
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
-	if len(m.ImageUrl) > 0 {
-		i -= len(m.ImageUrl)
-		copy(dAtA[i:], m.ImageUrl)
-		i = encodeVarint(dAtA, i, uint64(len(m.ImageUrl)))
+	if len(m.ImageData) > 0 {
+		i -= len(m.ImageData)
+		copy(dAtA[i:], m.ImageData)
+		i = encodeVarint(dAtA, i, uint64(len(m.ImageData)))
 		i--
 		dAtA[i] = 0x2a
 	}
@@ -709,10 +709,10 @@ func (m *Sighting) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
-	if len(m.ImageUrl) > 0 {
-		i -= len(m.ImageUrl)
-		copy(dAtA[i:], m.ImageUrl)
-		i = encodeVarint(dAtA, i, uint64(len(m.ImageUrl)))
+	if len(m.ImageData) > 0 {
+		i -= len(m.ImageData)
+		copy(dAtA[i:], m.ImageData)
+		i = encodeVarint(dAtA, i, uint64(len(m.ImageData)))
 		i--
 		dAtA[i] = 0x2a
 	}
@@ -975,7 +975,7 @@ func (m *CreateSightingRequest) SizeVT() (n int) {
 		}
 		n += 1 + l + sov(uint64(l))
 	}
-	l = len(m.ImageUrl)
+	l = len(m.ImageData)
 	if l > 0 {
 		n += 1 + l + sov(uint64(l))
 	}
@@ -1119,7 +1119,7 @@ func (m *Sighting) SizeVT() (n int) {
 		}
 		n += 1 + l + sov(uint64(l))
 	}
-	l = len(m.ImageUrl)
+	l = len(m.ImageData)
 	if l > 0 {
 		n += 1 + l + sov(uint64(l))
 	}
@@ -1950,7 +1950,7 @@ func (m *CreateSightingRequest) UnmarshalVT(dAtA []byte) error {
 			iNdEx = postIndex
 		case 5:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ImageUrl", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field ImageData", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -1978,7 +1978,7 @@ func (m *CreateSightingRequest) UnmarshalVT(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ImageUrl = string(dAtA[iNdEx:postIndex])
+			m.ImageData = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -2633,7 +2633,7 @@ func (m *Sighting) UnmarshalVT(dAtA []byte) error {
 			iNdEx = postIndex
 		case 5:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ImageUrl", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field ImageData", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -2661,7 +2661,7 @@ func (m *Sighting) UnmarshalVT(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ImageUrl = string(dAtA[iNdEx:postIndex])
+			m.ImageData = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

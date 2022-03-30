@@ -31,7 +31,7 @@ func composeSightingsProto(req []*entity.Sighting) (res []*tigerv1.Sighting) {
 			SeenAt:    timestamppb.New(v.SeenAt),
 			Latitude:  wrapperspb.Double(v.Latitude),
 			Longitude: wrapperspb.Double(v.Longitude),
-			ImageUrl:  v.ImageURL,
+			ImageData: v.ImageData,
 		})
 	}
 	return res

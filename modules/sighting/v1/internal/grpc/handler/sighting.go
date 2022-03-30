@@ -83,5 +83,21 @@ func (s *TigerSighting) GetSightings(ctx context.Context, req *tigerv1.GetSighti
 
 // CreateSighting handles HTTP/2 gRPC request similar to POST in HTTP/1.1.
 func (s *TigerSighting) CreateSighting(ctx context.Context, req *tigerv1.CreateSightingRequest) (*tigerv1.CreateSightingResponse, error) {
-	return &tigerv1.CreateSightingResponse{}, nil
+	logger, ctx := logging.NewHandlerLogger(ctx, s.logger, "CreateSighting", req)
+
+	if err := s.sightingSvc.CreateSighting(ctx, &entity.Sighting{
+		TigerID:   req.GetId(),
+		SeenAt:    req.GetSeenAt().AsTime(),
+		Latitude:  req.GetLatitude().GetValue(),
+		Longitude: req.GetLongitude().GetValue(),
+		ImageData: req.GetImageData(),
+	}); err != nil {
+		logging.WithError(err, logger).Error("Error when call s.sightingSvc.CreateSighting")
+		return nil, err
+	}
+
+	res := &tigerv1.CreateSightingResponse{
+		Message: "Successfully create new sighting",
+	}
+	return res, nil
 }

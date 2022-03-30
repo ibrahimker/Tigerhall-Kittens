@@ -34,7 +34,7 @@ type Sighting struct {
 	SeenAt    time.Time
 	Latitude  float64
 	Longitude float64
-	ImageURL  string
+	ImageData string
 	CreatedAt sql.NullTime
 	UpdatedAt sql.NullTime
 }

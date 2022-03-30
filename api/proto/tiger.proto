@@ -74,7 +74,7 @@ message CreateSightingRequest {
   google.protobuf.Timestamp seen_at = 2;
   google.protobuf.DoubleValue latitude = 3;
   google.protobuf.DoubleValue longitude = 4;
-  string image_url = 5;
+  string image_data = 5;
 }
 
 message CreateSightingResponse {
@@ -97,5 +97,5 @@ message Sighting {
   google.protobuf.Timestamp seen_at = 2;
   google.protobuf.DoubleValue latitude = 3;
   google.protobuf.DoubleValue longitude = 4;
-  string image_url = 5;
+  string image_data = 5;
 }
