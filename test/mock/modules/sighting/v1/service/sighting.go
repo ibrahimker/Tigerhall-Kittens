@@ -37,17 +37,17 @@ func (m *MockTigerSighting) EXPECT() *MockTigerSightingMockRecorder {
 }
 
 // CreateSighting mocks base method.
-func (m *MockTigerSighting) CreateSighting(ctx context.Context, tigerID int32, sighting *entity.Sighting) error {
+func (m *MockTigerSighting) CreateSighting(ctx context.Context, sighting *entity.Sighting) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateSighting", ctx, tigerID, sighting)
+	ret := m.ctrl.Call(m, "CreateSighting", ctx, sighting)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateSighting indicates an expected call of CreateSighting.
-func (mr *MockTigerSightingMockRecorder) CreateSighting(ctx, tigerID, sighting interface{}) *gomock.Call {
+func (mr *MockTigerSightingMockRecorder) CreateSighting(ctx, sighting interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSighting", reflect.TypeOf((*MockTigerSighting)(nil).CreateSighting), ctx, tigerID, sighting)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSighting", reflect.TypeOf((*MockTigerSighting)(nil).CreateSighting), ctx, sighting)
 }
 
 // CreateTiger mocks base method.
@@ -118,17 +118,17 @@ func (m *MockTigerSightingRepository) EXPECT() *MockTigerSightingRepositoryMockR
 }
 
 // CreateSighting mocks base method.
-func (m *MockTigerSightingRepository) CreateSighting(ctx context.Context, tigerID int32, sighting *entity.Sighting) error {
+func (m *MockTigerSightingRepository) CreateSighting(ctx context.Context, sighting *entity.Sighting) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateSighting", ctx, tigerID, sighting)
+	ret := m.ctrl.Call(m, "CreateSighting", ctx, sighting)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateSighting indicates an expected call of CreateSighting.
-func (mr *MockTigerSightingRepositoryMockRecorder) CreateSighting(ctx, tigerID, sighting interface{}) *gomock.Call {
+func (mr *MockTigerSightingRepositoryMockRecorder) CreateSighting(ctx, sighting interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSighting", reflect.TypeOf((*MockTigerSightingRepository)(nil).CreateSighting), ctx, tigerID, sighting)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSighting", reflect.TypeOf((*MockTigerSightingRepository)(nil).CreateSighting), ctx, sighting)
 }
 
 // CreateTiger mocks base method.
@@ -160,6 +160,21 @@ func (mr *MockTigerSightingRepositoryMockRecorder) GetSightingsByTigerID(ctx, ti
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSightingsByTigerID", reflect.TypeOf((*MockTigerSightingRepository)(nil).GetSightingsByTigerID), ctx, tigerID)
 }
 
+// GetTigerByID mocks base method.
+func (m *MockTigerSightingRepository) GetTigerByID(ctx context.Context, tigerID int32) (*entity.Tiger, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetTigerByID", ctx, tigerID)
+	ret0, _ := ret[0].(*entity.Tiger)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTigerByID indicates an expected call of GetTigerByID.
+func (mr *MockTigerSightingRepositoryMockRecorder) GetTigerByID(ctx, tigerID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTigerByID", reflect.TypeOf((*MockTigerSightingRepository)(nil).GetTigerByID), ctx, tigerID)
+}
+
 // GetTigers mocks base method.
 func (m *MockTigerSightingRepository) GetTigers(ctx context.Context) ([]*entity.Tiger, error) {
 	m.ctrl.T.Helper()
@@ -173,4 +188,18 @@ func (m *MockTigerSightingRepository) GetTigers(ctx context.Context) ([]*entity.
 func (mr *MockTigerSightingRepositoryMockRecorder) GetTigers(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTigers", reflect.TypeOf((*MockTigerSightingRepository)(nil).GetTigers), ctx)
+}
+
+// UpdateTiger mocks base method.
+func (m *MockTigerSightingRepository) UpdateTiger(ctx context.Context, tiger *entity.Tiger) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateTiger", ctx, tiger)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateTiger indicates an expected call of UpdateTiger.
+func (mr *MockTigerSightingRepositoryMockRecorder) UpdateTiger(ctx, tiger interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTiger", reflect.TypeOf((*MockTigerSightingRepository)(nil).UpdateTiger), ctx, tiger)
 }

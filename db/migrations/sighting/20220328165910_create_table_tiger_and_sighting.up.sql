@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS sighting.sighting (
     "seen_at" timestamp not null,
     "latitude" numeric not null,
     "longitude" numeric not null,
-    "image_url" text not null,
+    "image_data" text not null,
     "created_at" timestamp default now(),
     "updated_at" timestamp,
     "deleted_at" timestamp
