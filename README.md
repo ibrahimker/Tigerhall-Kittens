@@ -4,6 +4,9 @@
 
 Monolithic repository services for Tigerhall Kittens services.
 
+## Prerequisites
+- Read [Prerequisites](doc/PREREQUISITES.md).
+
 ## Test
 
 ### Unit Test
@@ -37,4 +40,6 @@ $ make migrate-schema url="postgres://postgresuser:postgrespassword@localhost:54
 $ make migrate url="postgres://postgresuser:postgrespassword@localhost:5432/tigerhall" module=sighting
 ```
 
-After you run migration, now the API is ready to be hit
+After you run migration, now the API is ready to be hit. Import [Postman Colletcion](doc/Tigerhall Kittens.postman_collection.json) to postman (or your respective http client) then just hit the API
+
+![](doc/testing.mp4)
